@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Input, Stack } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Stack, Text, Link } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import NextImage from 'next/image'
@@ -54,6 +54,21 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
               >
                 {mode}
               </Button>
+              {mode === 'signin' ? (
+                <Text>
+                  Dont have an account ?{' '}
+                  <Link color="teal.500" href="/signup">
+                    lets signup
+                  </Link>
+                </Text>
+              ) : (
+                <Text>
+                  Have an account ?{' '}
+                  <Link color="teal.500" href="/signin">
+                    lets signin
+                  </Link>
+                </Text>
+              )}
             </Stack>
           </form>
         </Box>
