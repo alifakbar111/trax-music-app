@@ -1,9 +1,9 @@
 import React from 'react'
-import { Text } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import prisma from '../../lib/prisma'
 import { validateToken } from '../../lib/auth'
 import GradientLayout from '../../components/gradientLayout'
+import SongsTable from '../../components/songsTable'
 
 const getBGColor = (id: number) => {
   const colors = [
@@ -30,7 +30,7 @@ const Playlist = ({ playlist }) => {
       description={`${playlist.songs.length} songs - A daily selection`}
       roundImage={false}
     >
-      <Text>test</Text>
+      <SongsTable songs={playlist.songs} />
     </GradientLayout>
   )
 }
