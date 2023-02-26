@@ -9,6 +9,8 @@ import {
   List,
   ListIcon,
   ListItem,
+  Skeleton,
+  Stack,
 } from '@chakra-ui/react'
 import {
   MdHome,
@@ -17,6 +19,7 @@ import {
   MdPlaylistAdd,
   MdFavorite,
 } from 'react-icons/md'
+import { Playlist } from '@prisma/client'
 import { Menu } from '../types/sidebar'
 import { usePlaylist } from '../lib/hooks'
 
@@ -51,10 +54,8 @@ const musicMenu: Menu[] = [
   },
 ]
 
-// const playlists = new Array(30).fill(1).map((_, i) => `Playlist ${i + 1}`)
-
 const Sidebar = () => {
-  const { playlists } = usePlaylist()
+  const { playlists, isLoading } = usePlaylist()
 
   return (
     <Box
@@ -111,15 +112,25 @@ const Sidebar = () => {
         <Divider color="gray.800" />
         <Box height="66%" overflowY="auto" paddingY="20px">
           <List spacing={2}>
-            {playlists.map((playlist) => (
-              <ListItem paddingX="20px" key={playlist.id}>
-                <LinkBox>
-                  <NextLink href="/">
-                    <LinkOverlay>{playlist.name}</LinkOverlay>
-                  </NextLink>
-                </LinkBox>
-              </ListItem>
-            ))}
+            {isLoading ? (
+              <Stack>
+                <Skeleton height="20px" bg="gray.800" />
+                <Skeleton height="20px" />
+                <Skeleton height="20px" />
+              </Stack>
+            ) : (
+              <Stack>
+                {playlists.map((playlist: Playlist) => (
+                  <ListItem paddingX="20px" key={playlist.id}>
+                    <LinkBox>
+                      <NextLink href="/">
+                        <LinkOverlay>{playlist.name}</LinkOverlay>
+                      </NextLink>
+                    </LinkBox>
+                  </ListItem>
+                ))}
+              </Stack>
+            )}
           </List>
         </Box>
       </Box>
