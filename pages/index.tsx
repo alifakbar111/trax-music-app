@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { Artist } from '@prisma/client'
+import { GetServerSideProps } from 'next'
 import NextImage from 'next/image'
 import GradientLayout from '../components/gradientLayout'
 import { useMe } from '../lib/hooks'
@@ -23,9 +24,9 @@ const Home = ({ artists }) => {
           </Text>
           <Text fontSize="md">only visible to you</Text>
         </Box>
-        <Flex>
+        <Flex color="white">
           {artists.map((artist: Artist) => (
-            <Box paddingX="3">
+            <Box paddingX="3" key={artist.name}>
               <Box bg="gray.900" borderRadius="md" padding="4">
                 <NextImage
                   src="https://placekitten.com/300/300"
@@ -50,7 +51,7 @@ const Home = ({ artists }) => {
   )
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const artists = await prisma.artist.findMany({})
   return {
     props: { artists },
