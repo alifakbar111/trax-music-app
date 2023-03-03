@@ -8,10 +8,10 @@ import {
   Center,
   Flex,
   IconButton,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
   Text,
 } from '@chakra-ui/react'
 import {
@@ -80,9 +80,9 @@ const Player = ({ songs, activeSong }) => {
         if (next === state) {
           nextSong()
         }
-      } else {
-        return state === songs.length - 1 ? 0 : state + 1
+        return next
       }
+      return state === songs.length - 1 ? 0 : state + 1
     })
   }
 
@@ -185,23 +185,22 @@ const Player = ({ songs, activeSong }) => {
             <Text fontSize="sm">{formatTime(seek)}</Text>
           </Box>
           <Box width="80%">
-            <Slider
+            <RangeSlider
               id="player-range"
-              aria-label={['min', 'max'] as unknown as string}
-              min={0}
+              aria-label={['min', 'max']}
               step={0.1}
-              colorScheme="gray"
+              min={0}
               max={duration ? (duration.toFixed(2) as unknown as number) : 0}
               onChange={onSeek}
-              value={[seek] as unknown as number}
+              value={[seek]}
               onChangeStart={() => setIsSeeking(true)}
               onChangeEnd={() => setIsSeeking(false)}
             >
-              <SliderTrack bg="gray.800">
-                <SliderFilledTrack bg="gray.600" />
-              </SliderTrack>
-              <SliderThumb />
-            </Slider>
+              <RangeSliderTrack bg="gray.800">
+                <RangeSliderFilledTrack bg="gray.600" />
+              </RangeSliderTrack>
+              <RangeSliderThumb index={0} />
+            </RangeSlider>
           </Box>
           <Box width="10%" textAlign="right">
             <Text fontSize="sm">{formatTime(duration)}</Text>
