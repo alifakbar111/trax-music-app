@@ -1,15 +1,24 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
+import { useStoreState } from 'easy-peasy'
+import Player from './player'
 
 const PlayerBar = () => {
+  const songs = useStoreState((state: any) => state.activeSongs)
+  const activeSong = useStoreState((state: any) => state.activeSong)
+
   return (
     <Box height="100px" width="100vw" bg="gray.900">
       <Flex align="center">
-        <Box padding="6" color="white">
-          <Text fontSize="large">Song Name</Text>
-          <Text fontSize="sm">Artist Name</Text>
+        {activeSong ? (
+          <Box padding="6" color="white" width="30%">
+            <Text fontSize="large">{activeSong.name}</Text>
+            <Text fontSize="sm">{activeSong.artist.name}</Text>
+          </Box>
+        ) : null}
+        <Box width="40%">
+          {activeSong ? <Player songs={songs} activeSong={activeSong} /> : null}
         </Box>
-        <Box width="40%">controls</Box>
       </Flex>
     </Box>
   )

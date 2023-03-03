@@ -10,9 +10,18 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { MdPlayArrow, MdAvTimer } from 'react-icons/md'
+import { useStoreActions } from 'easy-peasy'
 import { formatDate, formatTime } from '../lib/formatters'
 
 const SongsTable = ({ songs }) => {
+  const playSongs = useStoreActions((store: any) => store.changeActiveSongs)
+  const setActiveSong = useStoreActions((store: any) => store.changeActiveSong)
+
+  const handlePlay = (activeSong?: any) => {
+    setActiveSong(activeSong || songs[0])
+    playSongs(songs)
+  }
+
   return (
     <Box bg="transparent">
       <Box padding="3" marginBottom="6">
@@ -22,6 +31,7 @@ const SongsTable = ({ songs }) => {
           aria-label="play-button"
           colorScheme="green"
           isRound
+          onClick={() => handlePlay()}
         />
         <Table variant="unstyled" color="white">
           <Thead
@@ -47,7 +57,8 @@ const SongsTable = ({ songs }) => {
                   },
                 }}
                 key={song.id}
-                cursor="cursor"
+                cursor="pointer"
+                onClick={() => handlePlay(song)}
               >
                 <Td>{idx + 1}</Td>
                 <Td>{song.name}</Td>
